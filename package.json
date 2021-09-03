@@ -1,0 +1,40 @@
+{
+  "name": "file-sharing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nexmo-se/file-sharing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nexmo-se/file-sharing/issues"
+  },
+  "homepage": "https://github.com/nexmo-se/file-sharing#readme",
+  "devDependencies": {
+    "webpack": "^5.47.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.23.0",
+    "@aws-sdk/s3-request-presigner": "^3.23.0",
+    "aws-sdk": "^2.977.0",
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "npm": "^7.21.1",
+    "opentok": "^2.12.0",
+    "uuid": "^8.3.2"
+  }
+}

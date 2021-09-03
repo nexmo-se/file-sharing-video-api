@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="./src/index.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script async src="/dist/main.js"></script>
+    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+    <link rel="stylesheet" href="./src//volta.min.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="mainview">
+        <!-- <div id="selector">
+          <form>
+            <label for="cars">Choose a source:</label>
+            <select name="cars" id="cars"> </select>
+            <br /><br />
+          </form>
+        </div> -->
+        <div id="videos">
+          <div id="subscriber"></div>
+          <div id="publisher"></div>
+        </div>
+      </div>
+      <div
+        style="padding-left: 16px; padding-right: 16px; margin-left:auto; background-color: black;"
+      >
+        <button
+          id="button-expand-sidebar"
+          class="Vlt-btn Vlt-btn--app Vlt-btn--white Vlt-btn--icon"
+        >
+          <svg>
+            <use xlink:href="/src/volta-icons.svg#Vlt-icon-collapse" />
+          </svg>
+        </button>
+      </div>
+      <div class="sidebar" id="sidebar">
+        <div id="header">
+          <div class="Vlt-tabs">
+            <ul class="Vlt-tabs__header" role="tablist" aria-label="Example">
+              <li
+                role="tab"
+                aria-selected="true"
+                aria-controls="tab-one"
+                tabindex="0"
+                id="one"
+                class="Vlt-tabs__link Vlt-tabs__link_active"
+              >
+                <span>Chat</span>
+              </li>
+              <!-- <li
+                role="tab"
+                aria-selected="false"
+                aria-controls="tab-two"
+                tabindex="-1"
+                id="two"
+                class="Vlt-tabs__link"
+              >
+                <span>Tab two</span>
+              </li> -->
+              <!-- <li
+                role="tab"
+                aria-selected="false"
+                aria-controls="tab-disabled"
+                tabindex="-1"
+                id="disabled"
+                class="Vlt-tabs__link Vlt-tabs__link_disabled"
+              >
+                <span>Disabled tab</span>
+              </li> -->
+            </ul>
+            <div class="Vlt-tabs__content">
+              <div
+                tabindex="0"
+                role="tabpanel"
+                id="tab-one"
+                aria-labelledby="one"
+                hidden="true"
+                class="Vlt-tabs__panel Vlt-tabs__panel_active"
+              >
+                <!-- <p class="Vlt-grey-darker">I'm a tab panel</p> -->
+              </div>
+              <div
+                tabindex="0"
+                role="tabpanel"
+                id="tab-two"
+                aria-labelledby="two"
+                hidden="false"
+                class="Vlt-tabs__panel"
+              >
+                <p class="Vlt-grey-darker">I'm also a tab panel</p>
+              </div>
+              <div
+                tabindex="0"
+                role="tabpanel"
+                id="tab-disabled"
+                aria-labelledby="disabled"
+                hidden="false"
+                class="Vlt-tabs__panel"
+              >
+                <p class="Vlt-grey-darker">
+                  I'm an inaccessible tab panel becayse my link is disabled
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+          corporis impedit cum dolorum vitae dolorem voluptate aperiam aliquid,
+          temporibus commodi, consequatur harum ut a reprehenderit. Rem odit
+          harum aliquam architecto? -->
+        </div>
+        <div id="chat"></div>
+        <div id="bottom">
+          <!-- <div id="addfile"> -->
+          <!-- <label class="custom-file-upload">
+              <input id="input-field" type="file" />
+              <i class="fa fa-cloud-upload"></i> +
+            </label> -->
+
+          <input
+            type="file"
+            id="fileElem"
+            multiple
+            accept="image/*"
+            style="display:none"
+          />
+          <button
+            id="fileSelect"
+            class="Vlt-btn Vlt-btn--small Vlt-btn--primary Vlt-btn--icon"
+          >
+            <svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-plus" /></svg>
+          </button>
+          <!-- <a href="#" id="fileSelect">Select some files</a> -->
+          <div id="fileList">
+            <!-- <p>No files selected!</p> -->
+          </div>
+
+          <!-- <button>+</button> -->
+          <!-- <input type="file" /> -->
+          <!-- </div> -->
+          <div id="text">
+            <div class="Vlt-form__element">
+              <label for="example-input-icon-button" class="Vlt-label"></label>
+              <div class="Vlt-composite Vlt-composite--appendedicon">
+                <div class="Vlt-input">
+                  <input type="text" id="file" />
+                </div>
+                <div class="Vlt-composite__append Vlt-composite__append--icon">
+                  <svg>
+                    <use
+                      xlink:href="./src/volta-icons.svg#Vlt-icon-cross-bold"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <!-- <input type="text" placeholder="type message here" /> -->
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
