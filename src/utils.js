@@ -85,3 +85,15 @@ export function getFileIcon(file) {
     return 'Vlt-icon-file-pdf';
   }
 }
+
+export const generateDownloadButton = button => {
+  const htmlString = `<div style="display: none; flex-direction: row; align-items:center; ">
+  <button
+    class="downloadButton, Vlt-btn,Vlt-btn--tertiary, Vlt-btn--icon">
+    <svg>
+      <use xlink:href="./src/volta-icons.svg#Vlt-icon-download-full" />
+    </svg>
+  </button>
+</div>`;
+  return htmlString;
+};

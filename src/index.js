@@ -52,10 +52,11 @@ window.addEventListener('load', event => {
   function setUpEventListeners() {
     session.on('signal:image', function(event) {
       console.log(event);
-      const sender =
-        event.from.connectionId === session.connection.connectionId
-          ? 'Me'
-          : 'Participant';
+      // const sender =
+      //   event.from.connectionId === session.connection.connectionId
+      //     ? 'Me'
+      //     : 'Participant';
+      const sender = messageSender(event.connection.connectionId);
       const image = new Image();
       image.src = 'data:image/png;base64,' + event.data.image;
       // chat.appendChild(image);
@@ -86,10 +87,10 @@ window.addEventListener('load', event => {
     });
     session.on('signal:file', function(event) {
       console.log(event);
-      const sender =
-        event.from.connectionId === session.connection.connectionId
-          ? 'Me'
-          : 'Participant';
+      const sender = messageSender(event.connection.connectionId);
+      // event.from.connectionId === session.connection.connectionId
+      //   ? 'Me'
+      //   : 'Participant';
 
       const downloadableFile = document.createElement('div');
       downloadableFile.style.display = 'flex';
@@ -132,10 +133,10 @@ window.addEventListener('load', event => {
     }),
       session.on('signal:text', function(event) {
         console.log(event);
-        const sender =
-          event.from.connectionId === session.connection.connectionId
-            ? 'Me'
-            : 'Participant';
+        const sender = messageSender(event.from.connectionId);
+        // event.from.connectionId === session.connection.connectionId
+        //   ? 'Me'
+        //   : 'Participant';
         addChatMessage(sender, event.data);
       }),
       session.on('streamCreated', function(event) {
@@ -151,6 +152,11 @@ window.addEventListener('load', event => {
         );
       });
   }
+
+  const messageSender = connection => {
+    if (connection === session.connection.connectionId) return 'me';
+    else return 'Participant';
+  };
 
   fileElem.addEventListener('change', function(event) {
     console.log(event);
@@ -263,12 +269,13 @@ window.addEventListener('load', event => {
   };
 
   message.addEventListener('keyup', function(event) {
+    console.log(event);
     // Number 13 is the "Enter" key on the keyboard
     if (event.keyCode === 13) {
       // Cancel the default action, if needed
-      event.preventDefault();
+      // event.preventDefault();
       sendSignal(event.target.value, 'text');
-      message.innerHTML = '';
+      event.target.value = '';
     }
   });
 
