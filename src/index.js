@@ -94,17 +94,26 @@ window.addEventListener('load', event => {
       const downloadableFile = document.createElement('div');
       downloadableFile.style.display = 'flex';
       downloadableFile.style.flexDirection = 'row';
-      const pdfIcon = document.createElement('button');
       downloadableFile.style.alignItems = 'center';
+      const pdfIcon = document.createElement('button');
+      pdfIcon.classList.add(
+        'downloadButton',
+        'Vlt-btn',
+        'Vlt-btn--tertiary',
+        'Vlt-btn--icon'
+      );
+      // pdfIcon.src = './src/pdf.png';
       pdfIcon.innerHTML =
         '<svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-file-pdf" /></svg>';
+      pdfIcon.classList.add('Vlt-icon');
       const downloadButton = document.createElement('button');
-      // downloadButton.classList.add(
-      //   'downloadButton',
-      //   'Vlt-btn',
-      //   'Vlt-btn--tertiary',
-      //   'Vlt-btn--icon'
-      // );
+      downloadButton.classList.add(
+        'downloadButton',
+        'Vlt-icon',
+        'Vlt-btn',
+        'Vlt-btn--tertiary',
+        'Vlt-btn--icon'
+      );
       downloadButton.innerHTML =
         '<svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-download-full" /></svg>';
       downloadButton.onclick = () => {
@@ -237,7 +246,8 @@ window.addEventListener('load', event => {
         var publisher = OT.initPublisher('publisher', {
           insertMode: 'append',
           width: '100%',
-          height: '100%'
+          height: '100%',
+          publishAudio: false
         });
         publisherObject = session.publish(publisher);
       }
