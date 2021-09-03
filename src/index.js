@@ -50,7 +50,7 @@ window.addEventListener('load', event => {
     false
   );
   function setUpEventListeners() {
-    session.on('signal:file', function(event) {
+    session.on('signal:image', function(event) {
       console.log(event);
       const sender =
         event.from.connectionId === session.connection.connectionId
@@ -62,6 +62,7 @@ window.addEventListener('load', event => {
       const downloadableImage = document.createElement('div');
       downloadableImage.style.display = 'flex';
       downloadableImage.style.flexDirection = 'row';
+      downloadableImage.style.alignItems = 'center';
       const downloadButton = document.createElement('button');
       downloadButton.classList.add(
         'downloadButton',
@@ -83,15 +84,51 @@ window.addEventListener('load', event => {
       downloadableImage.appendChild(downloadButton);
       chat.appendChild(downloadableImage);
     });
-
-    session.on('signal:text', function(event) {
+    session.on('signal:file', function(event) {
       console.log(event);
       const sender =
         event.from.connectionId === session.connection.connectionId
           ? 'Me'
           : 'Participant';
-      addChatMessage(sender, event.data);
+
+      const downloadableFile = document.createElement('div');
+      downloadableFile.style.display = 'flex';
+      downloadableFile.style.flexDirection = 'row';
+      const pdfIcon = document.createElement('button');
+      downloadableFile.style.alignItems = 'center';
+      pdfIcon.innerHTML =
+        '<svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-file-pdf" /></svg>';
+      const downloadButton = document.createElement('button');
+      // downloadButton.classList.add(
+      //   'downloadButton',
+      //   'Vlt-btn',
+      //   'Vlt-btn--tertiary',
+      //   'Vlt-btn--icon'
+      // );
+      downloadButton.innerHTML =
+        '<svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-download-full" /></svg>';
+      downloadButton.onclick = () => {
+        const aElement = document.createElement('a');
+        aElement.href = event.data.downloadUrl.url;
+        aElement.download = 'file';
+        aElement.click();
+      };
+      const bubble = addSenderBubble(sender);
+      chat.appendChild(bubble);
+      downloadableFile.appendChild(pdfIcon);
+      downloadableFile.appendChild(downloadButton);
+      chat.appendChild(downloadableFile);
+
+      // addChatMessage(sender, event.data);
     }),
+      session.on('signal:text', function(event) {
+        console.log(event);
+        const sender =
+          event.from.connectionId === session.connection.connectionId
+            ? 'Me'
+            : 'Participant';
+        addChatMessage(sender, event.data);
+      }),
       session.on('streamCreated', function(event) {
         session.subscribe(
           event.stream,
@@ -227,7 +264,7 @@ window.addEventListener('load', event => {
 
   async function handleFiles(files) {
     // chat.innerHTML = '';
-    console.log(files[0]);
+    // console.log(files[0]);
     console.log('getting signedURL');
 
     const uuid = uuidv4();
@@ -235,10 +272,25 @@ window.addEventListener('load', event => {
       const { url } = await getURLForUpload(uuid);
       await uploadFile(url, files[0]);
       const downloadUrl = await getDownloadUrl(uuid);
-      const image = await getImageThumbnail(files[0]);
-      sendSignal({ image, downloadUrl }, 'file');
+      console.log(downloadUrl);
+      console.log('is this a pdf ' + isPdfFile(files[0]));
+      if (!isPdfFile(files[0])) {
+        try {
+          const image = await getImageThumbnail(files[0]);
+          sendSignal({ image, downloadUrl }, 'image');
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        sendSignal({ downloadUrl }, 'file');
+      }
     } catch (e) {
       console.log(e);
     }
   }
+
+  const isPdfFile = file => {
+    console.log(file);
+    return file.name.endsWith('.pdf');
+  };
 });

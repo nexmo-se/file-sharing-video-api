@@ -77,3 +77,11 @@ export const addSenderBubble = sender => {
   bubble.innerHTML = sender;
   return bubble;
 };
+
+export function getFileIcon(file) {
+  if (file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+    return 'Vlt-icon-file-doc';
+  } else if (file.name.endsWith('.pdf')) {
+    return 'Vlt-icon-file-pdf';
+  }
+}

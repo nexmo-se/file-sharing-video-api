@@ -48,7 +48,7 @@ app.get('/api/signed-url/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
     const url = await getS3Url(uuid);
-    console.log(url);
+    console.log('getting signed url ' + url);
     if (url) {
       res.json({ url: url });
     }
@@ -62,7 +62,7 @@ app.get('/api/download-url/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
     const url = await getObjectUrl(uuid);
-    console.log(url);
+    console.log('getting download url ' + url);
     if (url) {
       res.json({ url: url });
     }
