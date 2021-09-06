@@ -71,7 +71,7 @@ export const generateDownloadButton = downloadUrl => {
   })()"
     class="downloadButton Vlt-icon Vlt-btn Vlt-btn--tertiary Vlt-btn--icon">
     <svg>
-      <use xlink:href="./src/volta-icons.svg#Vlt-icon-download-full" />
+      <use xlink:href="volta-icons.svg#Vlt-icon-download-full" />
     </svg>
   </button>
 `;
@@ -104,7 +104,7 @@ export const generateIconButton = icon => {
   const htmlString = `
  
     <svg class="Vlt-icon">
-      <use xlink:href="./src/volta-icons.svg#${icon}" />
+      <use xlink:href="volta-icons.svg#${icon}" />
     </svg>
 
   `;

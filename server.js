@@ -2,15 +2,19 @@
 // const axios = require('axios');
 require('dotenv').config();
 const cors = require('cors');
+const path = require('path');
 
 const express = require('express');
 
-const http = require('http');
 const port = process.env.SERVER_PORT || process.env.PORT || 5000;
 const bodyParser = require('body-parser');
 
 const app = express(); // create express app
 app.use(cors());
+// app.use('/index', express.static(path.join(__dirname, './index.html')));
+app.use(express.static(__dirname + '/src'));
+app.use('/dist', express.static('dist'));
+app.use('/video', express.static(path.join(__dirname, './index.html')));
 const { getCredentials, generateToken } = require('./services/opentok');
 const { getObjectUrl, getS3Url } = require('./services/s3');
 
@@ -44,6 +48,10 @@ app.get('/session/:room', async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/index.html'));
+});
+
 app.get('/api/signed-url/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
@@ -72,7 +80,6 @@ app.get('/api/download-url/:uuid', async (req, res) => {
   }
 });
 
-const httpServer = http.createServer(app);
-httpServer.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(port, () => {
+  console.log(`App listening at http://localhost:${port}`);
 });
