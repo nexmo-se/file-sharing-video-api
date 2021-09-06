@@ -55,10 +55,6 @@ window.addEventListener('load', event => {
   function setUpEventListeners() {
     session.on('signal:image', function(event) {
       console.log(event);
-      // const sender =
-      //   event.from.connectionId === session.connection.connectionId
-      //     ? 'Me'
-      //     : 'Participant';
       const sender = messageSender(event.from.connectionId);
       const image = new Image();
       image.src = 'data:image/png;base64,' + event.data.image;
@@ -88,25 +84,25 @@ window.addEventListener('load', event => {
 
       downloadableFile.insertAdjacentHTML('afterbegin', fileIcon);
       downloadableFile.insertAdjacentHTML('beforeend', downloadButton);
-    }),
-      session.on('signal:text', function(event) {
-        console.log(event);
-        const sender = messageSender(event.from.connectionId);
+    });
+    session.on('signal:text', function(event) {
+      // console.log(event);
+      const sender = messageSender(event.from.connectionId);
 
-        addChatMessage(sender, event.data);
-      }),
-      session.on('streamCreated', function(event) {
-        session.subscribe(
-          event.stream,
-          'subscriber',
-          {
-            insertMode: 'append',
-            width: '100%',
-            height: '100%'
-          },
-          handleError
-        );
-      });
+      addChatMessage(sender, event.data);
+    });
+    session.on('streamCreated', function(event) {
+      session.subscribe(
+        event.stream,
+        'subscriber',
+        {
+          insertMode: 'append',
+          width: '100%',
+          height: '100%'
+        },
+        handleError
+      );
+    });
   }
 
   const messageSender = connection => {
@@ -123,17 +119,15 @@ window.addEventListener('load', event => {
   };
 
   fileElem.addEventListener('change', function(event) {
-    console.log(event);
+    // console.log(event);
     event.preventDefault();
     handleFiles(event.target.files);
   });
 
   document.getElementById('chat').addEventListener('drop', function(e) {
     e.preventDefault();
-    const dropZoneCounter = 0;
     console.log('dropped something');
     getFilesFromDragAndDropEvent(e);
-    // getURLForUpload();
   });
 
   document.getElementById('chat').addEventListener('dragover', function(e) {
@@ -171,11 +165,8 @@ window.addEventListener('load', event => {
       file.isDirectory = item.webkitGetAsEntry().isDirectory;
       files.push(file);
     }
-
     handleFiles(files);
 
-    // getSmallerImage(files[0]).then(data => sendSignal(data, 'file'));
-    // console.log(thumbNail);
     return files;
   }
 
@@ -218,7 +209,7 @@ window.addEventListener('load', event => {
   };
 
   message.addEventListener('keyup', function(event) {
-    console.log(event);
+    //console.log(event);
     // Number 13 is the "Enter" key on the keyboard
     if (event.keyCode === 13) {
       // Cancel the default action, if needed
