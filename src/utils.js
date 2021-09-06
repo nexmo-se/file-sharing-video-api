@@ -18,25 +18,6 @@ export const getDownloadUrl = async uuid => {
   }
 };
 
-// export const uploadFile = async (url, fields, file) => {
-//   console.log(file);
-//   const data = {
-//     bucket: fields.bucket,
-//     ...fields,
-//     'Content-Type': 'image/png',
-//     file: file
-//   };
-//   const formData = new FormData();
-//   for (const name in data) {
-//     formData.append(name, data[name]);
-//   }
-//   const response = await fetch(url, {
-//     method: 'POST',
-//     body: formData
-//   });
-//   return response;
-// };
-
 export const uploadFile = async (url, file) => {
   console.log('posting to ' + url);
   await fetch(url, {
@@ -78,20 +59,13 @@ export const addSenderBubble = sender => {
   return bubble;
 };
 
-export function getFileIcon(file) {
-  if (file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
-    return 'Vlt-icon-file-doc';
-  } else if (file.name.endsWith('.pdf')) {
-    return 'Vlt-icon-file-pdf';
-  }
-}
-
-export const generateDownloadButton = () => {
+export const generateDownloadButton = downloadUrl => {
+  console.log(downloadUrl);
   const htmlString = `
   <button
   onclick="(function(){
     const aElement = document.createElement('a');
-         aElement.href = 'https://www.youtube.com/watch?v=VbAczg8DJZU';
+         aElement.href = '${downloadUrl}';
         aElement.download = 'file';
          aElement.click();
   })()"
@@ -104,11 +78,33 @@ export const generateDownloadButton = () => {
   return htmlString;
 };
 
-export const generateIconButton = () => {
+export const getFileIconName = file => {
+  if (file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+    return 'Vlt-icon-file-doc';
+  } else if (file.name.endsWith('.pdf')) {
+    return 'Vlt-icon-file-pdf';
+  } else if (file.name.endsWith('.ppt') || file.name.endsWith('.pptx')) {
+    return 'Vlt-icon-file-ppt';
+  } else if (file.name.endsWith('.xls') || file.name.endsWith('.xlsx')) {
+    return 'Vlt-icon-file-xls';
+  } else if (file.name.endsWith('.zip')) {
+    return 'Vlt-icon-file-zip';
+  } else if (
+    file.type.toLowerCase().includes('video') ||
+    file.name.endsWith('.mp4')
+  ) {
+    return 'Vlt-icon-file-video';
+  } else if (file.type.toLowerCase().includes('image')) {
+    return 'Vlt-icon-image';
+  }
+  return 'Vlt-icon-file';
+};
+
+export const generateIconButton = icon => {
   const htmlString = `
  
     <svg class="Vlt-icon">
-      <use xlink:href="./src/volta-icons.svg#Vlt-icon-file-pdf" />
+      <use xlink:href="./src/volta-icons.svg#${icon}" />
     </svg>
 
   `;

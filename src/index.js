@@ -7,8 +7,8 @@ import {
   toggleSidebar,
   addSenderBubble,
   generateDownloadButton,
-  generateDownloadDiv,
-  generateIconButton
+  generateIconButton,
+  getFileIconName
 } from './utils';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -98,14 +98,16 @@ window.addEventListener('load', event => {
       downloadableFile.style.flexDirection = 'row';
       downloadableFile.style.alignItems = 'center';
 
-      const downloadButton = generateDownloadButton();
-      const pdfIcon = generateIconButton();
+      const downloadButton = generateDownloadButton(
+        event.data.downloadUrl.url.toString()
+      );
+      const fileIcon = generateIconButton(event.data.icon);
 
       const bubble = addSenderBubble(sender);
       chat.appendChild(bubble);
       chat.appendChild(downloadableFile);
 
-      downloadableFile.insertAdjacentHTML('afterbegin', pdfIcon);
+      downloadableFile.insertAdjacentHTML('afterbegin', fileIcon);
       downloadableFile.insertAdjacentHTML('beforeend', downloadButton);
     }),
       session.on('signal:text', function(event) {
@@ -152,21 +154,6 @@ window.addEventListener('load', event => {
   document.getElementById('chat').addEventListener('dragover', function(e) {
     e.preventDefault();
   });
-
-  // document.getElementById('chat').addEventListener('dragover', function(e) {
-  //   e.preventDefault();
-  // });
-
-  // document.getElementById('chat').addEventListener('dragend', function(e) {
-  //   allowDrop(e);
-  // });
-  // document.getElementById('chat').addEventListener('dragenter', function(e) {
-  //   allowDrop(e);
-  // });
-
-  // document.getElementById('file').addEventListener('dragover', function(e) {
-  //   allowDrop(e);
-  // });
 
   function allowDrop(event) {
     event.preventDefault();
@@ -258,7 +245,7 @@ window.addEventListener('load', event => {
 
   async function handleFiles(files) {
     // chat.innerHTML = '';
-    // console.log(files[0]);
+    console.log(files[0]);
     console.log('getting signedURL');
 
     const uuid = uuidv4();
@@ -267,8 +254,7 @@ window.addEventListener('load', event => {
       await uploadFile(url, files[0]);
       const downloadUrl = await getDownloadUrl(uuid);
       console.log(downloadUrl);
-      console.log('is this a pdf ' + isPdfFile(files[0]));
-      if (!isPdfFile(files[0])) {
+      if (isImage(files[0])) {
         try {
           const image = await getImageThumbnail(files[0]);
           sendSignal({ image, downloadUrl }, 'image');
@@ -276,15 +262,16 @@ window.addEventListener('load', event => {
           console.log(e);
         }
       } else {
-        sendSignal({ downloadUrl }, 'file');
+        const icon = getFileIconName(files[0]);
+        sendSignal({ downloadUrl, icon }, 'file');
       }
     } catch (e) {
       console.log(e);
     }
   }
 
-  const isPdfFile = file => {
+  const isImage = file => {
     console.log(file);
-    return file.name.endsWith('.pdf');
+    return file.type.startsWith('image');
   };
 });
