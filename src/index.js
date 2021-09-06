@@ -62,43 +62,21 @@ window.addEventListener('load', event => {
       const sender = messageSender(event.from.connectionId);
       const image = new Image();
       image.src = 'data:image/png;base64,' + event.data.image;
-      // chat.appendChild(image);
-      const downloadableImage = document.createElement('div');
-      downloadableImage.style.display = 'flex';
-      downloadableImage.style.flexDirection = 'row';
-      downloadableImage.style.alignItems = 'center';
-
-      const downloadButton = document.createElement('button');
-      downloadButton.classList.add(
-        'downloadButton',
-        'Vlt-btn',
-        'Vlt-btn--tertiary',
-        'Vlt-btn--icon'
+      const downloadableImage = generateDownloadDiv();
+      const downloadButton = generateDownloadButton(
+        event.data.downloadUrl.url.toString()
       );
-      downloadButton.innerHTML =
-        '<svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-download-full" /></svg>';
-      downloadButton.onclick = () => {
-        const aElement = document.createElement('a');
-        aElement.href = event.data.downloadUrl.url;
-        aElement.download = 'image';
-        aElement.click();
-      };
+
       const bubble = addSenderBubble(sender);
       chat.appendChild(bubble);
       downloadableImage.appendChild(image);
-      downloadableImage.appendChild(downloadButton);
       chat.appendChild(downloadableImage);
+      downloadableImage.insertAdjacentHTML('beforeend', downloadButton);
     });
     session.on('signal:file', function(event) {
       console.log(event);
       const sender = messageSender(event.from.connectionId);
       const downloadableFile = generateDownloadDiv();
-
-      // const downloadableFile = document.createElement('div');
-      // downloadableFile.style.display = 'flex';
-      // downloadableFile.style.flexDirection = 'row';
-      // downloadableFile.style.alignItems = 'center';
-
       const downloadButton = generateDownloadButton(
         event.data.downloadUrl.url.toString()
       );
@@ -114,9 +92,7 @@ window.addEventListener('load', event => {
       session.on('signal:text', function(event) {
         console.log(event);
         const sender = messageSender(event.from.connectionId);
-        // event.from.connectionId === session.connection.connectionId
-        //   ? 'Me'
-        //   : 'Participant';
+
         addChatMessage(sender, event.data);
       }),
       session.on('streamCreated', function(event) {
