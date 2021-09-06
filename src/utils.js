@@ -111,8 +111,8 @@ export const generateIconButton = icon => {
   return htmlString;
 };
 
-export const generateDownloadDiv = () => {
-  const htmlString = `<div style="display: none; flex-direction: row; align-items:center; ">
-</div>`;
-  return htmlString;
-};
+// export const generateDownloadDiv = () => {
+//   const htmlString = `<div style="display: none; flex-direction: row; align-items:center; ">
+// </div>`;
+//   return htmlString;
+// };

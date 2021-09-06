@@ -92,11 +92,12 @@ window.addEventListener('load', event => {
     session.on('signal:file', function(event) {
       console.log(event);
       const sender = messageSender(event.from.connectionId);
+      const downloadableFile = generateDownloadDiv();
 
-      const downloadableFile = document.createElement('div');
-      downloadableFile.style.display = 'flex';
-      downloadableFile.style.flexDirection = 'row';
-      downloadableFile.style.alignItems = 'center';
+      // const downloadableFile = document.createElement('div');
+      // downloadableFile.style.display = 'flex';
+      // downloadableFile.style.flexDirection = 'row';
+      // downloadableFile.style.alignItems = 'center';
 
       const downloadButton = generateDownloadButton(
         event.data.downloadUrl.url.toString()
@@ -135,6 +136,14 @@ window.addEventListener('load', event => {
   const messageSender = connection => {
     if (connection === session.connection.connectionId) return 'me';
     else return 'Participant';
+  };
+  const generateDownloadDiv = () => {
+    const downloadableFile = document.createElement('div');
+    downloadableFile.style.display = 'flex';
+    downloadableFile.style.flexDirection = 'row';
+    downloadableFile.style.alignItems = 'center';
+    downloadableFile.style.justifyContent = 'space-evenly';
+    return downloadableFile;
   };
 
   fileElem.addEventListener('change', function(event) {
