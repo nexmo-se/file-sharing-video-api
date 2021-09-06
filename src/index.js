@@ -5,7 +5,10 @@ import {
   uploadFile,
   getDownloadUrl,
   toggleSidebar,
-  addSenderBubble
+  addSenderBubble,
+  generateDownloadButton,
+  generateDownloadDiv,
+  generateIconButton
 } from './utils';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -56,7 +59,7 @@ window.addEventListener('load', event => {
       //   event.from.connectionId === session.connection.connectionId
       //     ? 'Me'
       //     : 'Participant';
-      const sender = messageSender(event.connection.connectionId);
+      const sender = messageSender(event.from.connectionId);
       const image = new Image();
       image.src = 'data:image/png;base64,' + event.data.image;
       // chat.appendChild(image);
@@ -64,6 +67,7 @@ window.addEventListener('load', event => {
       downloadableImage.style.display = 'flex';
       downloadableImage.style.flexDirection = 'row';
       downloadableImage.style.alignItems = 'center';
+
       const downloadButton = document.createElement('button');
       downloadButton.classList.add(
         'downloadButton',
@@ -87,49 +91,22 @@ window.addEventListener('load', event => {
     });
     session.on('signal:file', function(event) {
       console.log(event);
-      const sender = messageSender(event.connection.connectionId);
-      // event.from.connectionId === session.connection.connectionId
-      //   ? 'Me'
-      //   : 'Participant';
+      const sender = messageSender(event.from.connectionId);
 
       const downloadableFile = document.createElement('div');
       downloadableFile.style.display = 'flex';
       downloadableFile.style.flexDirection = 'row';
       downloadableFile.style.alignItems = 'center';
-      const pdfIcon = document.createElement('button');
-      pdfIcon.classList.add(
-        'downloadButton',
-        'Vlt-btn',
-        'Vlt-btn--tertiary',
-        'Vlt-btn--icon'
-      );
-      // pdfIcon.src = './src/pdf.png';
-      pdfIcon.innerHTML =
-        '<svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-file-pdf" /></svg>';
-      pdfIcon.classList.add('Vlt-icon');
-      const downloadButton = document.createElement('button');
-      downloadButton.classList.add(
-        'downloadButton',
-        'Vlt-icon',
-        'Vlt-btn',
-        'Vlt-btn--tertiary',
-        'Vlt-btn--icon'
-      );
-      downloadButton.innerHTML =
-        '<svg><use xlink:href="./src/volta-icons.svg#Vlt-icon-download-full" /></svg>';
-      downloadButton.onclick = () => {
-        const aElement = document.createElement('a');
-        aElement.href = event.data.downloadUrl.url;
-        aElement.download = 'file';
-        aElement.click();
-      };
+
+      const downloadButton = generateDownloadButton();
+      const pdfIcon = generateIconButton();
+
       const bubble = addSenderBubble(sender);
       chat.appendChild(bubble);
-      downloadableFile.appendChild(pdfIcon);
-      downloadableFile.appendChild(downloadButton);
       chat.appendChild(downloadableFile);
 
-      // addChatMessage(sender, event.data);
+      downloadableFile.insertAdjacentHTML('afterbegin', pdfIcon);
+      downloadableFile.insertAdjacentHTML('beforeend', downloadButton);
     }),
       session.on('signal:text', function(event) {
         console.log(event);

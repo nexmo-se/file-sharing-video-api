@@ -86,14 +86,37 @@ export function getFileIcon(file) {
   }
 }
 
-export const generateDownloadButton = button => {
-  const htmlString = `<div style="display: none; flex-direction: row; align-items:center; ">
+export const generateDownloadButton = () => {
+  const htmlString = `
   <button
-    class="downloadButton, Vlt-btn,Vlt-btn--tertiary, Vlt-btn--icon">
+  onclick="(function(){
+    const aElement = document.createElement('a');
+         aElement.href = 'https://www.youtube.com/watch?v=VbAczg8DJZU';
+        aElement.download = 'file';
+         aElement.click();
+  })()"
+    class="downloadButton Vlt-icon Vlt-btn Vlt-btn--tertiary Vlt-btn--icon">
     <svg>
       <use xlink:href="./src/volta-icons.svg#Vlt-icon-download-full" />
     </svg>
   </button>
+`;
+  return htmlString;
+};
+
+export const generateIconButton = () => {
+  const htmlString = `
+ 
+    <svg class="Vlt-icon">
+      <use xlink:href="./src/volta-icons.svg#Vlt-icon-file-pdf" />
+    </svg>
+
+  `;
+  return htmlString;
+};
+
+export const generateDownloadDiv = () => {
+  const htmlString = `<div style="display: none; flex-direction: row; align-items:center; ">
 </div>`;
   return htmlString;
 };
