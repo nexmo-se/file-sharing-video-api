@@ -1,8 +1,10 @@
 # file-sharing-video-api
 
-Sample app that shows how to share files and images with Vonage Video API
+Sample app that shows how to share files and images with Vonage Video API. It leverages an AWS S3 bucket to upload and download the files. The files URL are shared via [Signalling API](https://tokbox.com/developer/guides/signaling/js/)
 
 ![Main](https://github.com/nexmo-se/file-sharing-video-api/blob/main/images/sample_file_sharing.png?raw=true)
+
+### Architecture
 
 ### Setup (Local)
 
